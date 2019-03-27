@@ -6,7 +6,6 @@ WORKDIR ./
 ADD index.js ./
 ADD dbconfig.js ./
 ADD package.json ./
-RUN ls /usr/lib/oracle/18.3/client64/lib/wallets
 
 CMD echo "Hello!" && \
     yum install -y oracle-nodejs-release-el7 oracle-release-el7 && \
