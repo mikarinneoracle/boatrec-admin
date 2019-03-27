@@ -1,2 +1,2 @@
-WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/src/ADW")))
+WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/usr/lib/oracle/18.3/client64/lib/wallets")))
 SSL_SERVER_DN_MATCH=yes
