@@ -7,6 +7,7 @@ let user;
     oracledb.getConnection({
         user: dbConfig.dbuser,
         password: dbConfig.dbpassword,
+        connectString: dbConfig.connectString
     },
     function(err, connection) {
         if (err) {
