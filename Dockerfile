@@ -1,4 +1,4 @@
-FROM mikarinneoracle/boatrec-adw-base:latest
+FROM mikarinneoracle/boatrec-adw-base:1.0
 
 WORKDIR ./
 ADD index.js ./
