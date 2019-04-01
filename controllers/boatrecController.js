@@ -17,6 +17,7 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
     $scope.testconnection = function() {
         $http.get('/testconnection').success(function(response, err) {
             console.log(response);
+            $scope.dbtestuser = response.user;
         });
     }
     

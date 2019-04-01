@@ -1,3 +1,7 @@
 To test your ADW connection please click the Test button
 
 <button ng-click="testconnection()">Test</button>
+
+<div ng-if='dbtestuser !== null'>
+    DB connection is successful, your ADW user is {{ dbtestuser }}
+</div>
