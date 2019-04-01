@@ -12,7 +12,7 @@ build:
     - script:
     name: set wallet location
     code: | 
-            TNS_ADMIN=/usr/lib/oracle/18.3/client64/lib/wallets; export TNS_ADMIN
+      TNS_ADMIN=/usr/lib/oracle/18.3/client64/lib/wallets; export TNS_ADMIN
     
         # Take our tested application revision and its dependencies, bake it in to a
     # Docker image, and push to OCIR.
