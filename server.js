@@ -103,7 +103,7 @@ var docreate = function (conn, cb) {
     conn.execute(
     `CREATE TABLE j_boatrec (
         recording VARCHAR2(4000) CONSTRAINT ensure_json CHECK (recording IS JSON),
-        image VARBINARY (10)
+        image CLOB
     )`,
     function(err) {
       if (err) {
