@@ -7,10 +7,12 @@ build:
       
     steps:
 
+    - npm-install
+    
         # Take our tested application revision and its dependencies, bake it in to a
     # Docker image, and push to OCIR.
     - internal/docker-push:
-            cmd: npm start
+            cmd: node server.js
             working-dir: $WERCKER_ROOT
             tag: $WERCKER_GIT_COMMIT
             ports: "3000"
