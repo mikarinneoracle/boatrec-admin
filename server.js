@@ -84,7 +84,8 @@ var dorelease = function(conn) {
 
 var dodrop = function (conn, cb) {
     conn.execute(
-    `BEGIN 
+    `BEGIN
+        EXECUTE IMMEDIATE 'ALTER TABLE j_boatrec DROP CONSTRAINT ensure_json';
         EXECUTE IMMEDIATE 'DROP TABLE j_boatrec'; EXCEPTION WHEN OTHERS THEN
         IF SQLCODE <> -942 THEN
                  RAISE;
