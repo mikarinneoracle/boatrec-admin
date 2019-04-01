@@ -85,7 +85,7 @@ var dorelease = function(conn) {
 var dodrop = function (conn, cb) {
     conn.execute(
     `BEGIN 
-        EXECUTE IMMEDIATE 'DROP TABLE j_purchaseorder'; EXCEPTION WHEN OTHERS THEN
+        EXECUTE IMMEDIATE 'DROP TABLE j_boatrec'; EXCEPTION WHEN OTHERS THEN
         IF SQLCODE <> -942 THEN
                  RAISE;
                END IF;
@@ -101,7 +101,10 @@ var dodrop = function (conn, cb) {
 
 var docreate = function (conn, cb) {
     conn.execute(
-    `CREATE TABLE j_purchaseorder (po_document VARCHAR2(4000) CONSTRAINT ensure_json CHECK (po_document IS JSON))`,
+    `CREATE TABLE j_boatrec (
+        recording VARCHAR2(4000) CONSTRAINT ensure_json CHECK (recording IS JSON),
+        image VARBINARY (10)
+    )`,
     function(err) {
       if (err) {
         return cb(err, conn);
