@@ -42,7 +42,7 @@ deploy-to-kubernetes:
         name: Prepare Kubernetes files
         code: |
           mkdir $WERCKER_OUTPUT_DIR/kubernetes
-          mv kubernetes_*.yml $WERCKER_OUTPUT_DIR/kubernetes
+          mv kube_*.yml $WERCKER_OUTPUT_DIR/kubernetes
 
     # `apply` is a good command to use here, as it'll create Kubernetes entities if they are missing.
     - kubectl:
