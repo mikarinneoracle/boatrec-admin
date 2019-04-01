@@ -1,5 +1,7 @@
 app.controller('boatrecController', function($location, $http, $rootScope, $scope, $routeParams, $interval, $timeout)
 {
+	$scope.dbtestuser = null;
+
 	if($location.path() == '/')
 	{
 		var data = [];
