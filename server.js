@@ -85,7 +85,7 @@ var dorelease = function(conn) {
 var doconstraintdrop = function (conn, cb) {
     conn.execute(
     `BEGIN
-        EXECUTE IMMEDIATE 'ALTER TABLE j_boatrec DROP CONSTRAINT ensure_json'; EXCEPTION WHEN OTHERS THEN
+        EXECUTE IMMEDIATE 'ALTER TABLE j_boatrec DROP CONSTRAINT ensure_rec_json'; EXCEPTION WHEN OTHERS THEN
         IF SQLCODE <> -942 THEN
                  RAISE;
                END IF;
@@ -94,7 +94,7 @@ var doconstraintdrop = function (conn, cb) {
       if (err) {
         return cb(err, conn);
       } else {
-        console.log("Constraint ensure_json dropped."); return cb(null, conn);
+        console.log("Constraint ensure_rec_json dropped."); return cb(null, conn);
       }
     });
 };
@@ -119,14 +119,14 @@ var dodrop = function (conn, cb) {
 var docreate = function (conn, cb) {
     conn.execute(
     `CREATE TABLE j_boatrec (
-        recording VARCHAR2(4000) CONSTRAINT ensure_json CHECK (recording IS JSON),
+        recording VARCHAR2(4000) CONSTRAINT ensure_rec_json CHECK (recording IS JSON),
         image CLOB
     )`,
     function(err) {
       if (err) {
         return cb(err, conn);
       } else {
-        console.log("Table j_boatrec and constraint ensure_json created");
+        console.log("Table j_boatrec and constraint ensure_rec_json created");
         return cb(null, conn);
       }
     });
