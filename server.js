@@ -16,8 +16,9 @@ app.listen(port, function() {
   	console.log('server listening on port ' + port);
 });
 
-app.post('/uploadRecording/', function(req, res) {
+app.post('/uploadRecording', function(req, res) {
     //data.push(req.body.recordedData);
+    console.log("Uploading recording ... ");
     console.log(req.body.recordedData);
     oracledb.getConnection({
         user: dbConfig.dbuser,
@@ -31,9 +32,10 @@ app.post('/uploadRecording/', function(req, res) {
             response.error = err;
             res.send(JSON.stringify(response));
         } else {    
+            var s = JSON.stringify(req.body.recordedData);  // IF NOT JSON COMING IN ?????
             connection.execute(
                 'INSERT INTO j_purchaseorder (po_document) VALUES (:bv)',
-                [req.body.recordedData], // bind the JSON string for inserting into the JSON column. 
+                [s], // bind the JSON string for inserting into the JSON column. 
                 { autoCommit: true }, function(err) {
                     if (err) {
                         var response = {};
@@ -48,7 +50,6 @@ app.post('/uploadRecording/', function(req, res) {
                                 response.error = err;
                                 res.send(JSON.stringify(response));
                             } else {
-                                console.log(user);
                                 var response = {};
                                 response.success = "Data inserted successfully.";
                                 res.send(JSON.stringify(response));
