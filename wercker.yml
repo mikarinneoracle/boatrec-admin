@@ -9,15 +9,10 @@ build:
 
     - npm-install
     
-    - script:
-      name: set wallet location
-      code: | 
-        TNS_ADMIN=/usr/lib/oracle/18.3/client64/lib/wallets; export TNS_ADMIN
-    
-        # Take our tested application revision and its dependencies, bake it in to a
+    # Take our tested application revision and its dependencies, bake it in to a
     # Docker image, and push to OCIR.
     - internal/docker-push:
-            cmd: node server.js
+            cmd: TNS_ADMIN=/usr/lib/oracle/18.3/client64/lib/wallets; export TNS_ADMIN; node server.js
             working-dir: $WERCKER_ROOT
             tag: $WERCKER_GIT_COMMIT
             ports: "3000"
