@@ -82,10 +82,26 @@ var dorelease = function(conn) {
     });
 };
 
+var doconstraintdrop = function (conn, cb) {
+    conn.execute(
+    `BEGIN
+        EXECUTE IMMEDIATE 'ALTER TABLE j_boatrec DROP CONSTRAINT ensure_json'; EXCEPTION WHEN OTHERS THEN
+        IF SQLCODE <> -942 THEN
+                 RAISE;
+               END IF;
+    END;`,
+    function(err) {
+      if (err) {
+        return cb(err, conn);
+      } else {
+        console.log("Constraint ensure_json dropped."); return cb(null, conn);
+      }
+    });
+};
+
 var dodrop = function (conn, cb) {
     conn.execute(
     `BEGIN
-        EXECUTE IMMEDIATE 'ALTER TABLE j_boatrec DROP CONSTRAINT ensure_json';
         EXECUTE IMMEDIATE 'DROP TABLE j_boatrec'; EXCEPTION WHEN OTHERS THEN
         IF SQLCODE <> -942 THEN
                  RAISE;
@@ -95,7 +111,7 @@ var dodrop = function (conn, cb) {
       if (err) {
         return cb(err, conn);
       } else {
-        console.log("Table dropped"); return cb(null, conn);
+        console.log("Table j_boatrec dropped."); return cb(null, conn);
       }
     });
 };
@@ -110,7 +126,7 @@ var docreate = function (conn, cb) {
       if (err) {
         return cb(err, conn);
       } else {
-        console.log("Table created");
+        console.log("Table j_boatrec and constraint ensure_json created");
         return cb(null, conn);
       }
     });
@@ -119,13 +135,14 @@ var docreate = function (conn, cb) {
 app.get('/createdb', function(req, res) {
   async.waterfall(
   [
+    doconstraintdrop,
     doconnect,
     dodrop,
     docreate
   ],
   function (err, conn) {
     if (err) { 
-        console.error("In waterfall error cb: ==>", err, "<==");
+        console.error("In waterfall error: ==>", err, "<==");
     }
     if (conn)
     {
