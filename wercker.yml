@@ -1,5 +1,10 @@
 build:
-    box: fra.ocir.io/oracsmnorthuk/boatrec-adw-base:1.0
+    box: 
+        id: fra.ocir.io/oracsmnorthuk/boatrec-adw-base
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+        tag: 1.0
+      
     steps:
 
         # Take our tested application revision and its dependencies, bake it in to a
