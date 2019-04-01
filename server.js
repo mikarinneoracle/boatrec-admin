@@ -135,8 +135,8 @@ var docreate = function (conn, cb) {
 app.get('/createdb', function(req, res) {
   async.waterfall(
   [
-    doconstraintdrop,
     doconnect,
+    doconstraintdrop,
     dodrop,
     docreate
   ],
