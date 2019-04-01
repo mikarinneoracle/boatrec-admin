@@ -23,7 +23,11 @@ build:
             env: TNS_ADMIN=/usr/lib/oracle/18.3/client64/lib/wallets
 
 deploy-to-kubernetes:
-    box: fra.ocir.io/oracsmnorthuk/boatrec-adw-base:1.0
+    id: fra.ocir.io/oracsmnorthuk/boatrec-admin
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        
     steps:
 
     # https://github.com/wercker/step-bash-template
