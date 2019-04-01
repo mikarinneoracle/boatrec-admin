@@ -16,11 +16,48 @@ app.listen(port, function() {
   	console.log('server listening on port ' + port);
 });
 
-app.post('/uploadRecording', function(req, res) {
-    data.push(req.body.recordedData);
+app.post('/uploadRecording/', function(req, res) {
+    //data.push(req.body.recordedData);
     console.log(req.body.recordedData);
-    var response = {};
-    res.send(JSON.stringify(response));
+    oracledb.getConnection({
+        user: dbConfig.dbuser,
+        password: dbConfig.dbpassword,
+        connectString: dbConfig.connectString
+    },
+    function(err, connection) {
+        if (err) {
+            console.log(err);
+            var response = {};
+            response.error = err;
+            res.send(JSON.stringify(response));
+        } else {    
+            connection.execute(
+                'INSERT INTO j_purchaseorder (po_document) VALUES (:bv)',
+                [req.body.recordedData], // bind the JSON string for inserting into the JSON column. 
+                { autoCommit: true }, function(err) {
+                    if (err) {
+                        var response = {};
+                        response.error = err;
+                        res.send(JSON.stringify(response));
+                    } else {
+                        console.log("Data inserted successfully.");
+                        connection.close(function(err) {
+                            if (err) {
+                                console.log(err);
+                                var response = {};
+                                response.error = err;
+                                res.send(JSON.stringify(response));
+                            } else {
+                                console.log(user);
+                                var response = {};
+                                response.success = "Data inserted successfully.";
+                                res.send(JSON.stringify(response));
+                            }
+                        });
+                    }
+            });
+        }
+    });
 });
 
 app.get('/data', function(req, res) {
@@ -50,15 +87,16 @@ app.get('/testconnection', function(req, res) {
                     res.send(JSON.stringify(response));
                 }
                 var user = result.rows[0][0];
-                console.log(user);
-                var response = {};
-                response.user = user;
-                res.send(JSON.stringify(response));
                 connection.close(function(err) {
                     if (err) {
                         console.log(err);
                         var response = {};
                         response.error = err;
+                        res.send(JSON.stringify(response));
+                    } else {
+                        console.log(user);
+                        var response = {};
+                        response.user = user;
                         res.send(JSON.stringify(response));
                     }
                 });
