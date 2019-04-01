@@ -34,7 +34,7 @@ app.post('/uploadRecording', function(req, res) {
         } else {    
             var s = JSON.stringify(req.body.recordedData);  // IF NOT JSON COMING IN ?????
             connection.execute(
-                'INSERT INTO j_purchaseorder (po_document) VALUES (:bv)',
+                'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                 [s], // bind the JSON string for inserting into the JSON column. 
                 { autoCommit: true }, function(err) {
                     if (err) {
