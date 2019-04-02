@@ -76,14 +76,15 @@ app.get('/data', function(req, res) {
             res.send(JSON.stringify(response));
         } else {    
             connection.execute(
-                'SELECT po_document FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.somekey")',
+                'SELECT recording FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.somekey")',
                 function(err, result) {
                     if (err) {
                         var response = {};
                         response.error = err;
                         res.send(JSON.stringify(response));
                     } else {
-                        console.log("Data inserted successfully.");
+                        console.log("Data read successfully.");
+                        console.log(result);
                         connection.close(function(err) {
                             if (err) {
                                 console.log(err);
