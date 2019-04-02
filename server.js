@@ -62,10 +62,44 @@ app.post('/uploadRecording', function(req, res) {
 });
 
 app.get('/data', function(req, res) {
-    console.log(data);
-    var response = {};
-    response.data = data;
-    res.send(JSON.stringify(response));
+    console.log("Getting recordings ... ");
+    oracledb.getConnection({
+        user: dbConfig.dbuser,
+        password: dbConfig.dbpassword,
+        connectString: dbConfig.connectString
+    },
+    function(err, connection) {
+        if (err) {
+            console.log(err);
+            var response = {};
+            response.error = err;
+            res.send(JSON.stringify(response));
+        } else {    
+            connection.execute(
+                'SELECT po_document FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.somekey")',
+                function(err, result) {
+                    if (err) {
+                        var response = {};
+                        response.error = err;
+                        res.send(JSON.stringify(response));
+                    } else {
+                        console.log("Data inserted successfully.");
+                        connection.close(function(err) {
+                            if (err) {
+                                console.log(err);
+                                var response = {};
+                                response.error = err;
+                                res.send(JSON.stringify(response));
+                            } else {
+                                var response = {};
+                                response.data = result;
+                                res.send(JSON.stringify(response));
+                            }
+                        });
+                    }
+            });
+        }
+    });
 });
 
 app.get('/testconnection', function(req, res) {
