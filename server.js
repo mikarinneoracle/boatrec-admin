@@ -76,7 +76,7 @@ app.get('/data', function(req, res) {
             res.send(JSON.stringify(response));
         } else {    
             connection.execute(
-                'SELECT recording FROM j_boatrec WHERE JSON_EXISTS (recording, "$.key1")',
+                'SELECT recording FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.key1")',
                 function(err, result) {
                     if (err) {
                         var response = {};
