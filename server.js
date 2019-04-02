@@ -94,7 +94,7 @@ app.get('/data', function(req, res) {
                             } else {
                                 var response = {};
                                 response.data = [];
-                                console.log("rows found " + js.length);
+                                console.log("rows found " + js.rows.length);
                                 for(var i=0; i < js.length; i++)
                                 {
                                     var js = JSON.parse(result.rows[i]);
