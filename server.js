@@ -96,7 +96,7 @@ app.get('/data', function(req, res) {
                                 response.data = [];
                                 for(var i=0; i < result.length; i++)
                                 {
-                                    console.log(result.rows[i].[1]);
+                                    console.log(result.rows[i][1]);
                                     response.data.push(result.rows[i][1]);
                                 }
                                 res.send(JSON.stringify(response));
