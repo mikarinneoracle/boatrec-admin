@@ -94,12 +94,12 @@ app.get('/data', function(req, res) {
                             } else {
                                 var response = {};
                                 response.data = [];
-                                var js = JSON.parse(result);
                                 console.log("rows found " + js.length);
                                 for(var i=0; i < js.length; i++)
                                 {
-                                    console.log(js.rows[i][1]);
-                                    response.data.push(js.rows[i][1]);
+                                    var js = JSON.parse(result.rows[i]);
+                                    console.log(js);
+                                    response.data.push(js);
                                 }
                                 res.send(JSON.stringify(response));
                             }
