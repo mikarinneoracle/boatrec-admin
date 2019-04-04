@@ -16,7 +16,7 @@ app.listen(port, function() {
   	console.log('server listening on port ' + port);
 });
 
-app.post('/uploadRecording', function(req, res) {
+app.post('/uploadrecording', function(req, res) {
     //data.push(req.body.recordedData);
     console.log("Uploading recording ... ");
     console.log(req.body.recordedData);
@@ -32,31 +32,47 @@ app.post('/uploadRecording', function(req, res) {
             response.error = err;
             res.send(JSON.stringify(response));
         } else {    
-            var s = JSON.stringify(req.body.recordedData);  // IF NOT JSON COMING IN ?????
-            connection.execute(
-                'INSERT INTO j_boatrec (recording) VALUES (:bv)',
-                [s], // bind the JSON string for inserting into the JSON column. 
-                { autoCommit: true }, function(err) {
+            //var s = JSON.stringify(req.body.recordedData);  // IF NOT JSON COMING IN ?????
+            if(req.body.recordedData)
+            { 
+                var s = req.body.recordedData;
+                connection.execute(
+                    'INSERT INTO j_boatrec (recording) VALUES (:bv)',
+                    [s], // bind the JSON string for inserting into the JSON column. 
+                    { autoCommit: true }, function(err) {
+                        if (err) {
+                            var response = {};
+                            response.error = err;
+                            res.send(JSON.stringify(response));
+                        } else {
+                            connection.close(function(err) {
+                                if (err) {
+                                    console.log(err);
+                                    var response = {};
+                                    response.error = err;
+                                    res.send(JSON.stringify(response));
+                                } else {
+                                    var response = {};
+                                    response.success = "Data inserted successfully.";
+                                    res.send(JSON.stringify(response));
+                                }
+                            });
+                        }
+                });
+            } else {
+                connection.close(function(err) {
                     if (err) {
+                        console.log(err);
                         var response = {};
                         response.error = err;
                         res.send(JSON.stringify(response));
                     } else {
-                        console.log("Data inserted successfully.");
-                        connection.close(function(err) {
-                            if (err) {
-                                console.log(err);
-                                var response = {};
-                                response.error = err;
-                                res.send(JSON.stringify(response));
-                            } else {
-                                var response = {};
-                                response.success = "Data inserted successfully.";
-                                res.send(JSON.stringify(response));
-                            }
-                        });
+                        var response = {};
+                        response.success = "'recordedData' not found in POST data.";
+                        res.send(JSON.stringify(response));
                     }
-            });
+                });
+            }
         }
     });
 });
