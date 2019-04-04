@@ -111,6 +111,7 @@ app.get('/data', function(req, res) {
                                 response.data = [];
                                 console.log("rows found " + result.rows.length);
                                 //response.data = result.rows;
+                                // let's loop thru the result set
                                 for(var i=0; i < result.rows.length; i++)
                                 {
                                     console.log(result.rows[i]);
