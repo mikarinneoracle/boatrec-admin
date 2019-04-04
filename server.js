@@ -32,10 +32,9 @@ app.post('/uploadrecording', function(req, res) {
             response.error = err;
             res.send(JSON.stringify(response));
         } else {    
-            //var s = JSON.stringify(req.body.recordedData);  // IF NOT JSON COMING IN ?????
             if(req.body.recordedData)
             { 
-                var s = req.body.recordedData;
+                var s = JSON.stringify(req.body.recordedData);
                 connection.execute(
                     'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                     [s], // bind the JSON string for inserting into the JSON column. 
@@ -68,7 +67,7 @@ app.post('/uploadrecording', function(req, res) {
                         res.send(JSON.stringify(response));
                     } else {
                         var response = {};
-                        response.success = "'recordedData' not found in POST data.";
+                        response.fail = "'recordedData' not found in POST data.";
                         res.send(JSON.stringify(response));
                     }
                 });
