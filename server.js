@@ -108,16 +108,14 @@ app.get('/data', function(req, res) {
                                 res.send(JSON.stringify(response));
                             } else {
                                 var response = {};
-                                //response.data = [];
+                                response.data = [];
                                 console.log("rows found " + result.rows.length);
-                                response.data = result.rows;
-                                /*
+                                //response.data = result.rows;
                                 for(var i=0; i < result.rows.length; i++)
                                 {
                                     console.log(result.rows[i]);
                                     response.data.push(result.rows[i]);
                                 }
-                                */
                                 res.send(JSON.stringify(response));
                             }
                         });
