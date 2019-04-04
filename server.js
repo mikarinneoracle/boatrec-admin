@@ -216,7 +216,7 @@ var dodrop = function (conn, cb) {
 var docreate = function (conn, cb) {
     conn.execute(
     `CREATE TABLE j_boatrec (
-        recording BLOB CONSTRAINT ensure_rec_json CHECK (recording IS JSON),
+        recording VARCHAR2(4000) CONSTRAINT ensure_rec_json CHECK (recording IS JSON),
         image CLOB
     )`,
     function(err) {
