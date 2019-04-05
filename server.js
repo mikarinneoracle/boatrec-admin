@@ -233,7 +233,7 @@ var docreate = function (conn, cb) {
 
 var docreateview = function (conn, cb) {
     conn.execute(
-    `CREATE VIEW j_boatrec_view AS SELECT rec.recording.key1, SELECT rec.recording.key2 FROM j_boatrec rec`,
+    `CREATE VIEW j_boatrec_view AS SELECT rec.recording.key1, rec.recording.key2 FROM j_boatrec rec`,
     function(err) {
       if (err) {
         return cb(err, conn);
