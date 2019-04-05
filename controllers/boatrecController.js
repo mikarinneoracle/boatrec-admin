@@ -9,7 +9,9 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
             for(var i = 0; i < response['data'].length; i++) {
                 console.log(response['data'][i]);
                 var row = {};
-                row.sensorData.key1 = response['data'][i].key1;
+                row.sensorData = response['data'][i];
+                console.log(Object.keys(row.sensorData));
+                console.log(Object.values(row.sensorData));
                 data.push(row);
             }
             $scope.boatrecData = data;
