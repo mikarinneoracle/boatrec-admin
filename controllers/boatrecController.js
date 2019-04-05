@@ -7,9 +7,11 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
 		var data = [];
         $http.get('/data').success(function(response, err) {
             for(var i = 0; i < response['data'].length; i++) {
-                console.log(response['data'][i]);
                 var row = {};
-                row.sensorData = response['data'][i];
+                row.sensorData.key1 = response['data'][i].key1;
+                row.sensorData.key2 = response['data'][i].key2;
+                row.sensorData.key3 = response['data'][i].key3;
+                row.sensorData.key4 = response['data'][i].key4;
                 data.push(row);
             }
             $scope.boatrecData = data;
