@@ -2,13 +2,19 @@
 <table class="table table-hover" id="boatTable">
   <thead>
     <tr>
-      <th>Data</th>
+      <th>Key1</th>
+      <th>Key2</th>
+      <th>Key3</th>
+      <th>Key4</th>
     </tr>
   </thead>
     
   <tbody>
     <tr ng-repeat="row in boatrecData">       
-      <td> {{ row.sensorData.key1 }} </td>   
+        <td> {{ row.key1 }} </td>  
+        <td> {{ row.key2 }} </td>   
+        <td> {{ row.key3 }} </td>   
+        <td> {{ row.key4 }} </td>   
     </tr>
   </tbody>
 </table>    
