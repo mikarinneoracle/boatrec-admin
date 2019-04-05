@@ -115,8 +115,11 @@ app.get('/data', function(req, res) {
                                 for(var i=0; i < result.rows.length; i++)
                                 {
                                     console.log(result.rows[i]);
-                                    response.data.push(result.rows[i]);
+                                    var data = {};
+                                    data = JSON.parse(result.rows[i]);
+                                    response.data.push(data);
                                 }
+                                console.log(response.data);
                                 res.send(JSON.stringify(response));
                             }
                         });
