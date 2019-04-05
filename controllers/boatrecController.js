@@ -7,7 +7,7 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
 		var data = [];
         $http.get('/data').success(function(response, err) {
             for(var i = 0; i < response['data'].length; i++) {
-                console.log(i + " " + response['data'][i]);
+                console.log(response['data'][i]);
                 var row = {};
                 row.sensorData = response['data'][i];
                 data.push(row);
