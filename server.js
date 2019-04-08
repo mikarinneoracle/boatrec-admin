@@ -257,10 +257,18 @@ app.get('/createdb', function(req, res) {
   function (err, conn) {
     if (err) { 
         console.error("In waterfall error: ==>", err, "<==");
-    }
-    if (conn)
-    {
-        dorelease(conn);
+        if (conn)
+        {
+            dorelease(conn);
+        }
+    } else {
+        if (conn)
+        {
+            dorelease(conn);
+        }
+        var response = {};
+        response.success = "Database created successfully.";
+        res.send(JSON.stringify(response));
     }
   });
 });
