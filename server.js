@@ -260,6 +260,8 @@ app.get('/createdb', function(req, res) {
   function (err, conn) {
     if (err) { 
         console.error("In waterfall error: ==>", err, "<==");
+    } else {
+        console.error("Database created succesfully.");
     }
     if (conn)
     {
