@@ -246,6 +246,9 @@ var docreateview = function (conn, cb) {
 };
 
 app.get('/createdb', function(req, res) {
+  var response = {};
+  response.success = "Creating database.";
+  res.send(JSON.stringify(response));
   async.waterfall(
   [
     doconnect,
@@ -257,18 +260,10 @@ app.get('/createdb', function(req, res) {
   function (err, conn) {
     if (err) { 
         console.error("In waterfall error: ==>", err, "<==");
-        if (conn)
-        {
-            dorelease(conn);
-        }
-    } else {
-        if (conn)
-        {
-            dorelease(conn);
-        }
-        var response = {};
-        response.success = "Database created successfully.";
-        res.send(JSON.stringify(response));
+    }
+    if (conn)
+    {
+        dorelease(conn);
     }
   });
 });
