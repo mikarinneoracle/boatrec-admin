@@ -246,9 +246,11 @@ var docreateview = function (conn, cb) {
 };
 
 app.get('/createdb', function(req, res) {
+  /*
   var response = {};
   response.success = "Creating database.";
   res.send(JSON.stringify(response));
+  */
   async.waterfall(
   [
     doconnect,
