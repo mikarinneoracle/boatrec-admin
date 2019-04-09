@@ -129,6 +129,59 @@ app.get('/data', function(req, res) {
     });
 });
 
+app.get('/items', function(req, res) {
+    console.log("Getting recordings ... ");
+    oracledb.getConnection({
+        user: dbConfig.dbuser,
+        password: dbConfig.dbpassword,
+        connectString: dbConfig.connectString
+    },
+    function(err, connection) {
+        if (err) {
+            console.log(err);
+            var response = {};
+            response.error = err;
+            res.send(JSON.stringify(response));
+        } else {    
+            connection.execute(
+                'SELECT recording FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.key1")',
+                function(err, result) {
+                    if (err) {
+                        var response = {};
+                        response.error = err;
+                        res.send(JSON.stringify(response));
+                    } else {
+                        console.log("Data read successfully.");
+                        console.log(result);
+                        connection.close(function(err) {
+                            if (err) {
+                                console.log(err);
+                                var response = {};
+                                response.error = err;
+                                res.send(JSON.stringify(response));
+                            } else {
+                                var response = {};
+                                console.log("rows found " + result.rows.length);
+                                //response.data = result.rows;
+                                // let's loop thru the result set
+                                response.items = [];
+                                for(var i=0; i < result.rows.length; i++)
+                                {
+                                    console.log(result.rows[i]);
+                                    var data = {};
+                                    data.item = JSON.parse(result.rows[i]);
+                                    response.data.push(data);
+                                }
+                                console.log(response.data);
+                                res.send(JSON.stringify(response));
+                            }
+                        });
+                    }
+            });
+        }
+    });
+});
+
 app.get('/testconnection', function(req, res) {
     oracledb.getConnection({
         user: dbConfig.dbuser,
