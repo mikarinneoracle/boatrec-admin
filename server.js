@@ -169,7 +169,7 @@ app.get('/items', function(req, res) {
                                 {
                                     console.log(result.rows[i]);
                                     var data = {};
-                                    data.item = JSON.parse(result.rows[i]);
+                                    data.item = JSON.parse(result.rows[i]); // Add as item to items
                                     response.data.push(data);
                                 }
                                 console.log(response.data);
