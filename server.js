@@ -161,7 +161,6 @@ app.get('/items', function(req, res) {
                                 res.send(JSON.stringify(response));
                             } else {
                                 var response = {};
-                                response.setHeader("Content-Type", "application/json");
                                 console.log("rows found " + result.rows.length);
                                 //response.data = result.rows;
                                 // let's loop thru the result set
@@ -185,6 +184,7 @@ app.get('/items', function(req, res) {
                                 response.links = [];
                                 response.links.push(link);
                                 console.log(response);
+                                res.setHeader("Content-Type", "application/json");
                                 res.send(response);
                             }
                         });
