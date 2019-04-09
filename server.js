@@ -178,7 +178,7 @@ app.get('/items', function(req, res) {
                                 response.offset = 0;
                                 var links = {};
                                 links.rel = 'self';
-                                link.href = 'http://132.145.239.205/items';
+                                links.href = 'http://132.145.239.205/items';
                                 links.name = 'boatrec';
                                 links.kind = 'collection';
                                 response.links = links;
