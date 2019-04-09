@@ -120,7 +120,8 @@ app.get('/data', function(req, res) {
                                     response.data.push(data);
                                 }
                                 console.log(response.data);
-                                res.send(JSON.stringify(response));
+                                res.setHeader("Content-Type", "application/json");
+                                res.send(response);
                             }
                         });
                     }
