@@ -182,8 +182,8 @@ app.get('/items', function(req, res) {
                                 links.name = 'boatrec';
                                 links.kind = 'collection';
                                 response.links = links;
-                                console.log(response.data);
-                                res.send(JSON.stringify(response));
+                                console.log(response);
+                                res.send(response);
                             }
                         });
                     }
