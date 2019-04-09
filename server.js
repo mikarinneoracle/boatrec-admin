@@ -161,6 +161,7 @@ app.get('/items', function(req, res) {
                                 res.send(JSON.stringify(response));
                             } else {
                                 var response = {};
+                                response.setHeader("Content-Type", "application/json");
                                 console.log("rows found " + result.rows.length);
                                 //response.data = result.rows;
                                 // let's loop thru the result set
@@ -176,12 +177,13 @@ app.get('/items', function(req, res) {
                                 response.hasMore = false;
                                 response.limit = 100;
                                 response.offset = 0;
-                                var links = {};
-                                links.rel = 'self';
-                                links.href = 'http://132.145.239.205/items';
-                                links.name = 'boatrec';
-                                links.kind = 'collection';
-                                response.links = links;
+                                var link = {};
+                                link.rel = 'self';
+                                link.href = 'http://132.145.239.205/items';
+                                link.name = 'boatrec';
+                                link.kind = 'collection';
+                                response.links = [];
+                                response.links.push(link);
                                 console.log(response);
                                 res.send(response);
                             }
