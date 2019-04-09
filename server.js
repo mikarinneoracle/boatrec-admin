@@ -181,7 +181,7 @@ app.get('/items', function(req, res) {
                                 link.href = 'http://132.145.239.205/items';
                                 links.name = 'boatrec';
                                 links.kind = 'collection';
-                                response.links = links:
+                                response.links = links;
                                 console.log(response.data);
                                 res.send(JSON.stringify(response));
                             }
