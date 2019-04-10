@@ -131,6 +131,14 @@ app.get('/data', function(req, res) {
     });
 });
 
+app.get('/posts', function(req, res) {
+    $http.get('http://jsonplaceholder.typicode.com/posts')
+    .success(function(response, err) {
+        console.log(response);
+        res.send(response);
+    });
+});
+    
 app.get('/testconnection', function(req, res) {
     oracledb.getConnection({
         user: dbConfig.dbuser,
