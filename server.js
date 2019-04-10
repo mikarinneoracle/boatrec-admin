@@ -136,7 +136,7 @@ app.get('/posts', function(req, res) {
         if(!error && response)
         {
             res.setHeader("Content-Type", "application/json");
-            res.setHeader('Content-Encoding', 'br');
+            res.setHeader("Content-Encoding", "br");
             var data = JSON.parse(body);
             res.send(data);
         } else {
