@@ -122,75 +122,7 @@ app.get('/data', function(req, res) {
                                 }
                                 console.log(response.data);
                                 res.setHeader("Content-Type", "application/json");
-                                res.send(response);
-                            }
-                        });
-                    }
-            });
-        }
-    });
-});
-
-app.get('/items', function(req, res) {
-    console.log("Getting recordings ... ");
-    oracledb.getConnection({
-        user: dbConfig.dbuser,
-        password: dbConfig.dbpassword,
-        connectString: dbConfig.connectString
-    },
-    function(err, connection) {
-        if (err) {
-            console.log(err);
-            var response = {};
-            response.error = err;
-            res.send(JSON.stringify(response));
-        } else {    
-            connection.execute(
-                'SELECT recording FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.key1")',
-                function(err, result) {
-                    if (err) {
-                        var response = {};
-                        response.error = err;
-                        res.send(JSON.stringify(response));
-                    } else {
-                        console.log("Data read successfully.");
-                        console.log(result);
-                        connection.close(function(err) {
-                            if (err) {
-                                console.log(err);
-                                var response = {};
-                                response.error = err;
-                                res.send(JSON.stringify(response));
-                            } else {
-                                var response = {};
-                                console.log("rows found " + result.rows.length);
-                                //response.data = result.rows;
-                                // let's loop thru the result set
-                                response.items = [];
-                                for(var i=0; i < result.rows.length; i++)
-                                {
-                                    console.log(result.rows[i]);
-                                    var data = {};
-                                    data = JSON.parse(result.rows[i]);
-                                    data.id = i;
-                                    response.push(data);
-                                }
-                                /*
-                                response.count = result.rows.length;
-                                response.hasMore = false;
-                                response.limit = 100;
-                                response.offset = 0;
-                                var link = {};
-                                link.rel = 'self';
-                                link.href = req.url;
-                                link.name = 'boatrec';
-                                link.kind = 'collection';
-                                response.links = [];
-                                response.links.push(link);
-                                */
-                                console.log(response);
-                                res.setHeader("Content-Type", "application/json");
-                                res.send(response);
+                                res.send(response.data);
                             }
                         });
                     }
