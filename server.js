@@ -17,9 +17,7 @@ app.listen(port, function() {
 });
 
 app.post('/uploadrecording', function(req, res) {
-    //data.push(req.body.recordedData);
     console.log("Uploading recording ... ");
-    console.log(req.body.recordedData);
     oracledb.getConnection({
         user: dbConfig.dbuser,
         password: dbConfig.dbpassword,
@@ -32,10 +30,10 @@ app.post('/uploadrecording', function(req, res) {
             response.error = err;
             res.send(JSON.stringify(response));
         } else {
-            console.log(req.body);
-            if(req.body.recordedData)
+            if(req.body.sensorData)
             { 
-                var s = JSON.stringify(req.body.recordedData);
+                console.log(req.body.sensorData);
+                var s = JSON.stringify(req.body.sensorData);
                 connection.execute(
                     'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                     [s], // bind the JSON string for inserting into the JSON column. 
@@ -236,7 +234,7 @@ var dodrop = function (conn, cb) {
 var docreate = function (conn, cb) {
     conn.execute(
     `CREATE TABLE j_boatrec (
-        recording VARCHAR2(4000) CONSTRAINT ensure_rec_json CHECK (recording IS JSON),
+        recording VARCHAR2(32000) CONSTRAINT ensure_rec_json CHECK (recording IS JSON),
         image CLOB
     )`,
     function(err) {
