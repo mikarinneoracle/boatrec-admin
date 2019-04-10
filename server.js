@@ -47,7 +47,7 @@ app.post('/uploadrecording', function(req, res) {
         } else {
             if(req.body.sensorData)
             { 
-                //console.log(req.body.sensorData);
+                console.log(req.body.sensorData);
                 console.log("parsing ... ");
                 var body = JSON.parse(req.body.sensorData);
                 console.log(body);
