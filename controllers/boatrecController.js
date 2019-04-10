@@ -8,10 +8,7 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
         $http.get('/data').success(function(response, err) {
             for(var i = 0; i < response.length; i++) {
                 var row = {};
-                row.key1 = response[i].key1;
-                row.key2 = response[i].key2;
-                row.key3 = response[i].key3;
-                row.key4 = response[i].key4;
+                row.data = response[i].urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f;
                 data.push(row);
             }
             $scope.boatrecData = data;
