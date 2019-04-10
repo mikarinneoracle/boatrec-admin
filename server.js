@@ -49,8 +49,7 @@ app.post('/uploadrecording', function(req, res) {
             if(req.body.sensorData)
             { 
                 console.log("parsing ... ");
-                var body = JSON.parse(req.body.sensorData);
-                console.log(body);
+                console.log(req.body.sensorData);
                 /*
                 // urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f
                 for(var j=0; j < data.length; j++)
