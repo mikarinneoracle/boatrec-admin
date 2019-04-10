@@ -117,7 +117,7 @@ app.get('/data', function(req, res) {
                                     console.log(result.rows[i]);
                                     var data = {};
                                     data = JSON.parse(result.rows[i]);
-                                    data.id = i;
+                                    data.id = i + 1;
                                     response.data.push(data);
                                 }
                                 console.log(response.data);
