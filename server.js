@@ -68,7 +68,7 @@ app.post('/uploadrecording', function(req, res) {
                     } else {
                         var response = {};
                         response.fail = "'recordedData' not found in POST data.";
-                        res.send(JSON.stringify(response));
+                        res.send(response);
                     }
                 });
             }
@@ -116,13 +116,12 @@ app.get('/data', function(req, res) {
                                 {
                                     console.log(result.rows[i]);
                                     var data = {};
-                                    data = JSON.parse(result.rows[i]);
+                                    data = 'id:' + i + ',' + JSON.parse(result.rows[i]);
                                     response.data.push(data);
                                 }
                                 console.log(response.data);
                                 res.setHeader("Content-Type", "application/json");
-                                //res.send(response);
-                                res.send(JSON.stringify(response));
+                                res.send(response);
                             }
                         });
                     }
