@@ -138,6 +138,9 @@ app.get('/posts', function(req, res) {
             res.setHeader("Content-Type", "application/json");
             res.status(200);
             //var data = JSON.parse(body);
+            console.log("===========================================================");
+            console.log(response);
+            console.log("===========================================================");
             res.send(body);
         } else {
             var response = {};
