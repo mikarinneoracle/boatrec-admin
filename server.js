@@ -136,6 +136,7 @@ app.get('/posts', function(req, res) {
         if(!error && response)
         {
             res.setHeader("Content-Type", "application/json");
+            res.status(200);
             //var data = JSON.parse(body);
             res.send(body);
         } else {
