@@ -45,19 +45,17 @@ app.post('/uploadrecording', function(req, res) {
             response.error = err;
             res.send(JSON.stringify(response));
         } else {
+            console.log(req.body);
             if(req.body.sensorData)
             { 
-                console.log(req.body.sensorData);
                 console.log("parsing ... ");
                 var body = JSON.parse(req.body.sensorData);
                 console.log(body);
-                //var body = req.body.sensorData;
-                var data = getValues(body, "urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f");
-                console.log(data);
+                /*
+                // urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f
                 for(var j=0; j < data.length; j++)
                 {
                     console.log(data[j]);
-                    /*
                     var s = JSON.stringify(data[j]);
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
@@ -82,8 +80,8 @@ app.post('/uploadrecording', function(req, res) {
                                 });
                             }
                     });
-                    */
                 }
+                */
             } else {
                 connection.close(function(err) {
                     if (err) {
@@ -93,7 +91,7 @@ app.post('/uploadrecording', function(req, res) {
                         res.send(JSON.stringify(response));
                     } else {
                         var response = {};
-                        response.fail = "'recordedData' not found in POST data.";
+                        response.fail = "'sensorData' not found in POST data.";
                         res.send(response);
                     }
                 });
