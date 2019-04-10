@@ -136,7 +136,8 @@ app.get('/posts', function(req, res) {
         if(!error && response)
         {
             res.setHeader("Content-Type", "application/json");
-            res.send(body);
+            var data = JSON.parse(body);
+            res.send(data);
         } else {
             var response = {};
             response.error = error;
