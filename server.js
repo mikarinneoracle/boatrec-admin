@@ -135,7 +135,7 @@ app.get('/posts', function(req, res) {
     request('http://jsonplaceholder.typicode.com/posts', function (error, response, body) {
         if(!error && response)
         {
-            res.send(response);
+            res.send(body);
         } else {
             var response = {};
             response.error = error;
