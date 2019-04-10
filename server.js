@@ -24,6 +24,7 @@ function getValues(obj, key) {
         if (typeof obj[i] == 'object') {
             objects = objects.concat(getValues(obj[i], key));
         } else if (i == key) {
+            console.log(obj[i]);
             objects.push(obj[i]);
         }
     }
@@ -47,6 +48,7 @@ app.post('/uploadrecording', function(req, res) {
             if(req.body.sensorData)
             { 
                 //console.log(req.body.sensorData);
+                console.log("parsing ... ");
                 var data = getValues(JSON.parse(req.body.sensorData), "urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f");
                 console.log(data);
                 for(var j=0; j < data.length; j++)
