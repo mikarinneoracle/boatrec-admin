@@ -16,6 +16,20 @@ app.listen(port, function() {
   	console.log('server listening on port ' + port);
 });
 
+//return an array of values that match on a certain key
+function getValues(obj, key) {
+    var objects = [];
+    for (var i in obj) {
+        if (!obj.hasOwnProperty(i)) continue;
+        if (typeof obj[i] == 'object') {
+            objects = objects.concat(getValues(obj[i], key));
+        } else if (i == key) {
+            objects.push(obj[i]);
+        }
+    }
+    return objects;
+}
+
 app.post('/uploadrecording', function(req, res) {
     console.log("Uploading recording ... ");
     oracledb.getConnection({
@@ -32,31 +46,36 @@ app.post('/uploadrecording', function(req, res) {
         } else {
             if(req.body.sensorData)
             { 
-                console.log(req.body.sensorData);
-                var s = JSON.stringify(req.body.sensorData);
-                connection.execute(
-                    'INSERT INTO j_boatrec (recording) VALUES (:bv)',
-                    [s], // bind the JSON string for inserting into the JSON column. 
-                    { autoCommit: true }, function(err) {
-                        if (err) {
-                            var response = {};
-                            response.error = err;
-                            res.send(JSON.stringify(response));
-                        } else {
-                            connection.close(function(err) {
-                                if (err) {
-                                    console.log(err);
-                                    var response = {};
-                                    response.error = err;
-                                    res.send(JSON.stringify(response));
-                                } else {
-                                    var response = {};
-                                    response.success = "Data inserted successfully.";
-                                    res.send(JSON.stringify(response));
-                                }
-                            });
-                        }
-                });
+                //console.log(req.body.sensorData);
+                var data = getValues(JSON.parse(req.body.sensorData), "urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f");
+                for(int j=0; j < data.length; j++)
+                {
+                    console.log(data[j]);
+                    var s = JSON.stringify(data[j]);
+                    connection.execute(
+                        'INSERT INTO j_boatrec (recording) VALUES (:bv)',
+                        [s], // bind the JSON string for inserting into the JSON column. 
+                        { autoCommit: true }, function(err) {
+                            if (err) {
+                                var response = {};
+                                response.error = err;
+                                res.send(JSON.stringify(response));
+                            } else {
+                                connection.close(function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                        var response = {};
+                                        response.error = err;
+                                        res.send(JSON.stringify(response));
+                                    } else {
+                                        var response = {};
+                                        response.success = "Data inserted successfully.";
+                                        res.send(JSON.stringify(response));
+                                    }
+                                });
+                            }
+                    });
+                }
             } else {
                 connection.close(function(err) {
                     if (err) {
@@ -231,6 +250,23 @@ var dodrop = function (conn, cb) {
     });
 };
 
+var dodropview = function (conn, cb) {
+    conn.execute(
+    `BEGIN
+        EXECUTE IMMEDIATE 'DROP VIEW j_boatrec_view'; EXCEPTION WHEN OTHERS THEN
+        IF SQLCODE <> -942 THEN
+                 RAISE;
+               END IF;
+    END;`,
+    function(err) {
+      if (err) {
+        return cb(err, conn);
+      } else {
+        console.log("View j_boatrec_view dropped."); return cb(null, conn);
+      }
+    });
+};
+
 var docreate = function (conn, cb) {
     conn.execute(
     `CREATE TABLE j_boatrec (
@@ -271,6 +307,7 @@ app.get('/createdb', function(req, res) {
     doconnect,
     doconstraintdrop,
     dodrop,
+    dodropview,
     docreate,
     docreateview
   ],
