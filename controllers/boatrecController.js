@@ -6,7 +6,7 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
 	{
 		var data = [];
         $http.get('/data').success(function(response, err) {
-            for(var i = 0; i < response['data'].length; i++) {
+            for(var i = 0; i < response.length; i++) {
                 var row = {};
                 row.key1 = response[i].key1;
                 row.key2 = response[i].key2;
