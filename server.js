@@ -49,10 +49,10 @@ app.post('/uploadrecording', function(req, res) {
                 //console.log(req.body.sensorData);
                 var data = getValues(JSON.parse(req.body.sensorData), "urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f");
                 console.log(data);
-                /*
                 for(var j=0; j < data.length; j++)
                 {
                     console.log(data[j]);
+                    /*
                     var s = JSON.stringify(data[j]);
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
@@ -77,8 +77,8 @@ app.post('/uploadrecording', function(req, res) {
                                 });
                             }
                     });
+                    */
                 }
-                */
             } else {
                 connection.close(function(err) {
                     if (err) {
