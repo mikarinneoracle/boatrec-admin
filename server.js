@@ -171,20 +171,23 @@ app.get('/items', function(req, res) {
                                 {
                                     console.log(result.rows[i]);
                                     var data = {};
-                                    data = JSON.parse(result.rows[i]); // Add as item to items
-                                    response.items.push(data);
+                                    data = JSON.parse(result.rows[i]);
+                                    data.id = i;
+                                    response.push(data);
                                 }
+                                /*
                                 response.count = result.rows.length;
                                 response.hasMore = false;
                                 response.limit = 100;
                                 response.offset = 0;
                                 var link = {};
                                 link.rel = 'self';
-                                link.href = 'http://132.145.239.205/items';
+                                link.href = req.url;
                                 link.name = 'boatrec';
                                 link.kind = 'collection';
                                 response.links = [];
                                 response.links.push(link);
+                                */
                                 console.log(response);
                                 res.setHeader("Content-Type", "application/json");
                                 res.send(response);
