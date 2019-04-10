@@ -136,11 +136,14 @@ app.get('/posts', function(req, res) {
         if(!error && response)
         {
             res.setHeader("Content-Type", "application/json");
+            res.statusMessage("OK");
             res.status(200);
             //var data = JSON.parse(body);
+            /*
             console.log("===========================================================");
             console.log(response);
             console.log("===========================================================");
+            */
             res.send(body);
         } else {
             var response = {};
