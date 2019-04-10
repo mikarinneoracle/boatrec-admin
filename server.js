@@ -132,10 +132,15 @@ app.get('/data', function(req, res) {
 });
 
 app.get('/posts', function(req, res) {
-    $http.get('http://jsonplaceholder.typicode.com/posts')
-    .success(function(response, err) {
-        console.log(response);
-        res.send(response);
+    request('http://jsonplaceholder.typicode.com/posts', function (error, response, body) {
+        if(!error && response)
+        {
+            res.send(response);
+        } else {
+            var response = {};
+            response.error = error;
+            res.send(JSON.stringify(response));
+        }
     });
 });
     
