@@ -1,6 +1,7 @@
 app.controller('boatrecController', function($location, $http, $rootScope, $scope, $routeParams, $interval, $timeout)
 {
 	$scope.dbtestuser = null;
+    $scope.data = {};
     $scope.data.uuid = 'urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f';
 
 	if($location.path() == '/')
@@ -30,8 +31,8 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
     }
     
     $scope.setUuid = function(uuid) {
-        $rootScope.data.uuid = uuid;
-        console.log($rootScope.data.uuid);
+        $scope.data.uuid = uuid;
+        console.log($scope.data.uuid);
         var data = [];
         $http.get('/data').success(function(response, err) {
             var s = JSON.stringify(response);
