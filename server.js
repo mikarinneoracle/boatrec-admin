@@ -86,6 +86,7 @@ app.post('/uploadrecording', function(req, res) {
                                         res.send(response);
                                         allOK = false;
                                         break;
+                                    }
                                 });
                             }
                     });
