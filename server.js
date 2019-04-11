@@ -57,11 +57,10 @@ app.post('/uploadrecording', function(req, res) {
                     res.send(JSON.stringify(response));
                     allOK = false;
                 } else {
-                    var j = count + 1;
-                    var s = JSON.stringify(data[j]);
+                    var s = JSON.stringify(data[i]);
                     count++;
                     console.log('=========================================');
-                    console.log("Inserting row " + count + " key:" + j);
+                    console.log("Inserting row " + count + " key:" + i);
                     console.log(s);
                     console.log('=========================================');
                     connection.execute(
