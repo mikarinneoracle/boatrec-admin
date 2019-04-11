@@ -65,7 +65,7 @@ app.post('/uploadrecording', function(req, res) {
                 } else {
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
-                        [s], // bind the JSON string for inserting into the JSON column. 
+                        [JSON.stringify(data[i])], // bind the JSON string for inserting into the JSON column. 
                         { autoCommit: true }, function(err) {
                             if (err && allOK) {
                                 var response = {};
