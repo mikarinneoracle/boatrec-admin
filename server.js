@@ -52,6 +52,7 @@ app.post('/uploadrecording', function(req, res) {
                 var data = req.body.sensorData;
                 var keys = Object.keys(data);
                 console.log(keys);
+                /*
                 for (i in keys) {
                     var s = JSON.stringify(data[i]);
                     console.log(s);
@@ -79,6 +80,7 @@ app.post('/uploadrecording', function(req, res) {
                             }
                     });
                 }
+                */
             } else {
                 connection.close(function(err) {
                     if (err) {
@@ -141,7 +143,8 @@ app.get('/data', function(req, res) {
                                     data.id = i + 1;
                                     response.data.push(data);
                                 }
-                                console.log(response.data);
+                                console.log('=========================================');
+                                console.log(JSON.stringify(response.data));
                                 res.setHeader("Content-Type", "application/json");
                                 res.send(response.data);
                             }
