@@ -58,7 +58,7 @@ app.post('/uploadrecording', function(req, res) {
                     if(err)
                         break;
                     var s = JSON.stringify(data[i]);
-                    console.log(s);
+                    console.log("Inserting row " + counter);
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                         [s], // bind the JSON string for inserting into the JSON column. 
