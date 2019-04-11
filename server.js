@@ -46,12 +46,30 @@ app.post('/uploadrecording', function(req, res) {
         for (key in keys) {
             var data = JSON.stringify(data[key]);
             count++;
-            oracledb.getConnection({
+            insertRow(data, key, count);
+        }
+        if(allOK)
+        {
+            console.log("===> All OK . Rows = " + count);
+            var response = {};
+            response.success = "Data inserted successfully. Rows = " + count;
+            res.send(response);   
+        }
+    } else {
+        var response = {};
+        response.fail = "'sensorData' not found in POST data.";
+        res.send(response);
+    }
+});
+
+function insertRow(data, key, count)
+{
+    oracledb.getConnection({
                 user: dbConfig.dbuser,
                 password: dbConfig.dbpassword,
                 connectString: dbConfig.connectString
             },
-            function(err, connection, key, data, count) {
+            function(err, connection) {
                 if (err) {
                     console.log(err);
                     var response = {};
@@ -89,29 +107,8 @@ app.post('/uploadrecording', function(req, res) {
                     });
                 }            
             });
-        }
-        if(allOK)
-        {
-            console.log("===> All OK . Rows = " + count);
-            var response = {};
-            response.success = "Data inserted successfully. Rows = " + count;
-            res.send(response);   
-        }
-    } else {
-        connection.close(function(err) {
-            if (err) {
-                console.log(err);
-                var response = {};
-                response.error = err;
-                res.send(JSON.stringify(response));
-            } else {
-                var response = {};
-                response.fail = "'sensorData' not found in POST data.";
-                res.send(response);
-            }
-        });
-    }
-});
+}
+
 
 app.get('/data', function(req, res) {
     console.log("Getting recordings ... ");
