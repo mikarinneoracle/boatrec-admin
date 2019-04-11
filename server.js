@@ -87,7 +87,7 @@ app.post('/uploadrecording', function(req, res) {
                                 });
                             }
                     });
-                //}            
+                }            
             });
         }
         if(allOK)
