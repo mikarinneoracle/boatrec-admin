@@ -50,6 +50,7 @@ app.post('/uploadrecording', function(req, res) {
                 connectString: dbConfig.connectString
             },
             function(err, connection) {
+                /*
                 if (err) {
                     console.log(err);
                     var response = {};
@@ -58,6 +59,7 @@ app.post('/uploadrecording', function(req, res) {
                     allOK = false;
                     break;
                 } else {
+                */
                     var s = JSON.stringify(data[i]);
                     count++;
                     console.log('=========================================');
@@ -90,7 +92,7 @@ app.post('/uploadrecording', function(req, res) {
                                 });
                             }
                     });
-                }            
+                //}            
             });
         }
         if(allOK)
