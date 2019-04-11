@@ -62,6 +62,7 @@ app.post('/uploadrecording', function(req, res) {
                             if (err) {
                                 var response = {};
                                 response.error = err;
+                                console.log(err);
                                 res.send(JSON.stringify(response));
                             } else {
                                 connection.close(function(err) {
