@@ -41,10 +41,13 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
             for(var i = 0; i < response.length; i++) {
                 console.log(response[i]);
                 var row = {};
-                row.navigation  = response[i].uuid.navigation;
-                row.performance = response[i].uuid.performance;
-                row.environment = response[i].uuid.environment;
-                data.push(row);
+                if(response[i].uuid.navigation && response[i].uuid.performance && response[i].uuid.environment)
+                {
+                    row.navigation  = response[i].uuid.navigation;
+                    row.performance = response[i].uuid.performance;
+                    row.environment = response[i].uuid.environment;
+                    data.push(row);
+                }
             }
             $scope.boatrecData = data;
         });
