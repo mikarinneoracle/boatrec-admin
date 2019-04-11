@@ -58,6 +58,7 @@ app.post('/uploadrecording', function(req, res) {
                     if(err)
                         break;
                     var s = JSON.stringify(data[i]);
+                    count++;
                     console.log("Inserting row " + count);
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
@@ -65,8 +66,6 @@ app.post('/uploadrecording', function(req, res) {
                         { autoCommit: true }, function(err) {
                             if (err) {
                                 error = err;
-                            } else {
-                                count++;
                             }
                     });
                 }
