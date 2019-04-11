@@ -53,7 +53,7 @@ app.post('/uploadrecording', function(req, res) {
                 var keys = Object.keys(data);
                 console.log(keys);
                 for (i in keys) {
-                    var s = JSON.stringify(data[j]);
+                    var s = JSON.stringify(data[i]);
                     console.log(s);
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
