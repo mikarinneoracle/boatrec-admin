@@ -53,6 +53,7 @@ app.post('/uploadrecording', function(req, res) {
                 var keys = Object.keys(data);
                 console.log(keys);
                 var error;
+                var count = 0;
                 for (i in keys) {
                     if(err)
                         break;
@@ -64,6 +65,8 @@ app.post('/uploadrecording', function(req, res) {
                         { autoCommit: true }, function(err) {
                             if (err) {
                                 error = err;
+                            } else {
+                                count++;
                             }
                     });
                 }
@@ -82,9 +85,9 @@ app.post('/uploadrecording', function(req, res) {
                             response.error = err;
                             res.send(response);
                         } else {
-                            console.log("===> All OK");
+                            console.log("===> All OK . Rows = " + count);
                             var response = {};
-                            response.success = "Data inserted successfully.";
+                            response.success = "Data inserted successfully. Rows = " + count;
                             res.send(response);
                         }
                     });
