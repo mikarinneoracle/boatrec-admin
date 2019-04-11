@@ -64,7 +64,7 @@ app.post('/uploadrecording', function(req, res) {
     }
 });
 
-function insertRow(data, key, count)
+var insertRow = function (data, key, count, callback)
 {
     oracledb.getConnection({
                 user: dbConfig.dbuser,
