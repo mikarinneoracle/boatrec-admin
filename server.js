@@ -44,7 +44,7 @@ app.post('/uploadrecording', function(req, res) {
         var count = 0;
         var allOK = true;
         for (key in keys) {
-            var data = JSON.stringify(data[i]);
+            var data = JSON.stringify(data[key]);
             count++;
             oracledb.getConnection({
                 user: dbConfig.dbuser,
