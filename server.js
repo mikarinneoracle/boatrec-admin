@@ -72,10 +72,6 @@ function insertRow(data, key, count)
             function(err, connection) {
                 if (err) {
                     console.log(err);
-                    var response = {};
-                    response.error = err;
-                    res.send(JSON.stringify(response));
-                    allOK = false;
                 } else {
                     console.log('=========================================');
                     console.log("Inserting row " + count + " key:" + key);
@@ -85,22 +81,15 @@ function insertRow(data, key, count)
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                         [data], // bind the JSON string for inserting into the JSON column. 
                         { autoCommit: true }, function(err) {
-                            if (err && allOK) {
+                            if (err) {
                                 var response = {};
-                                response.error = err;
-                                console.log(error);
+                                console.log(err);
                                 console.log("===> INSERT error");
-                                res.send(response);
-                                allOK = false;
                             } else {
                                 connection.close(function(err) {
-                                    if (err && allOK) {
+                                    if (err) {
                                         console.log("===> connection close error");
                                         console.log(err);
-                                        var response = {};
-                                        response.error = err;
-                                        res.send(response);
-                                        allOK = false;
                                     }
                                 });
                             }
