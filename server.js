@@ -50,16 +50,13 @@ app.post('/uploadrecording', function(req, res) {
                 connectString: dbConfig.connectString
             },
             function(err, connection) {
-                /*
                 if (err) {
                     console.log(err);
                     var response = {};
                     response.error = err;
                     res.send(JSON.stringify(response));
                     allOK = false;
-                    break;
                 } else {
-                */
                     var s = JSON.stringify(data[i]);
                     count++;
                     console.log('=========================================');
@@ -70,24 +67,22 @@ app.post('/uploadrecording', function(req, res) {
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                         [s], // bind the JSON string for inserting into the JSON column. 
                         { autoCommit: true }, function(err) {
-                            if (err) {
+                            if (err && allOK) {
                                 var response = {};
                                 response.error = err;
                                 console.log(error);
                                 console.log("===> INSERT error");
                                 res.send(response);
                                 allOK = false;
-                                break;
                             } else {
                                 connection.close(function(err) {
-                                    if (err) {
+                                    if (err && allOK) {
                                         console.log("===> connection close error");
                                         console.log(err);
                                         var response = {};
                                         response.error = err;
                                         res.send(response);
                                         allOK = false;
-                                        break;
                                     }
                                 });
                             }
