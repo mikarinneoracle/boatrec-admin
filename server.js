@@ -63,26 +63,25 @@ app.post('/uploadrecording', function(req, res) {
                                 var response = {};
                                 response.error = err;
                                 console.log(err);
+                                console.log("===> INSERT error");
                                 res.send(JSON.stringify(response));
                             } else {
-                                 var response = {};
-                                response.success = "Data inserted successfully.";
-                                res.send(JSON.stringify(response));
-                                /*
                                 connection.close(function(err) {
                                     if (err) {
+                                        console.log("===> connection close error");
                                         console.log(err);
                                         var response = {};
                                         response.error = err;
                                         res.send(JSON.stringify(response));
                                     } else {
+                                        console.log("===> All OK");
                                         var response = {};
                                         response.success = "Data inserted successfully.";
                                         res.send(JSON.stringify(response));
                                     }
                                 });
-                                */
                             }
+                        });
                     });
                 }
             } else {
