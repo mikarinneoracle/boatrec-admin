@@ -6,15 +6,16 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
 	{
 		var data = [];
         $http.get('/data').success(function(response, err) {
+            var s = JSON.stringify(response);
+            var s2 = replaceAll(s, 'urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f', 'uuid');
+            response = JSON.parse(s2);
             for(var i = 0; i < response.length; i++) {
                 console.log(response[i]);
                 var row = {};
-                /*
-                row.navigation = response[i].['urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f'].navigation;
-                row.performance = response[i].['urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f'].performance;
-                row.environment = response[i].['urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f'].environment;
+                row.navigation  = response[i].uuid.navigation;
+                row.performance = response[i].uuid.performance;
+                row.environment = response[i].uuid.environment;
                 data.push(row);
-                */
             }
             $scope.boatrecData = data;
         });
@@ -28,3 +29,11 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
     }
     
 });
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function escapeRegExp(str) {
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
