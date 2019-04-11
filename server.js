@@ -31,39 +31,6 @@ function getValues(obj, key) {
     return objects;
 }
 
-app.post('/uploadrecording', function(req, res) {
-    console.log("Uploading recording ... ");
-    console.log(req.body);
-    if(req.body.sensorData)
-    { 
-        console.log("parsing ... ");
-        var data = req.body.sensorData;
-        var keys = Object.keys(data);
-        console.log(keys);
-        var error;
-        var count = 0;
-        var allOK = true;
-        for (key in keys) {
-            var data = JSON.stringify(data[key]);
-            count++;
-            insertRow(data, key, count , function(result) {
-                allOK = result;
-            });
-        }
-        if(allOK)
-        {
-            console.log("===> All OK . Rows = " + count);
-            var response = {};
-            response.success = "Data inserted successfully. Rows = " + count;
-            res.send(response);   
-        }
-    } else {
-        var response = {};
-        response.fail = "'sensorData' not found in POST data.";
-        res.send(response);
-    }
-});
-
 var insertRow = function (data, key, count, callback)
 {
     oracledb.getConnection({
@@ -95,11 +62,9 @@ var insertRow = function (data, key, count, callback)
                                         console.log(err);
                                         callback(false);
                                     } else {
-                                        console.log("======= ALL OK1 ========= ");
+                                        console.log("======= ALL OK ========= ");
                                         callback(true);
                                     }
-                                    console.log("======= ALL OK2 ========= ");
-                                    callback(true);
                                 });
                             }
                     });
@@ -107,6 +72,38 @@ var insertRow = function (data, key, count, callback)
             });
 }
 
+app.post('/uploadrecording', function(req, res) {
+    console.log("Uploading recording ... ");
+    console.log(req.body);
+    if(req.body.sensorData)
+    { 
+        console.log("parsing ... ");
+        var data = req.body.sensorData;
+        var keys = Object.keys(data);
+        console.log(keys);
+        var error;
+        var count = 0;
+        var allOK = true;
+        for (key in keys) {
+            var data = JSON.stringify(data[key]);
+            count++;
+            insertRow(data, key, count, function(result) {
+                allOK = result;
+            });
+        }
+        if(allOK)
+        {
+            console.log("===> All OK . Rows = " + count);
+            var response = {};
+            response.success = "Data inserted successfully. Rows = " + count;
+            res.send(response);   
+        }
+    } else {
+        var response = {};
+        response.fail = "'sensorData' not found in POST data.";
+        res.send(response);
+    }
+});
 
 app.get('/data', function(req, res) {
     console.log("Getting recordings ... ");
