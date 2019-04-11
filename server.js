@@ -33,30 +33,31 @@ function getValues(obj, key) {
 
 app.post('/uploadrecording', function(req, res) {
     console.log("Uploading recording ... ");
-    oracledb.getConnection({
-        user: dbConfig.dbuser,
-        password: dbConfig.dbpassword,
-        connectString: dbConfig.connectString
-    },
-    function(err, connection) {
-        if (err) {
-            console.log(err);
-            var response = {};
-            response.error = err;
-            res.send(JSON.stringify(response));
-        } else {
-            console.log(req.body);
-            if(req.body.sensorData)
-            { 
-                console.log("parsing ... ");
-                var data = req.body.sensorData;
-                var keys = Object.keys(data);
-                console.log(keys);
-                var error;
-                var count = 0;
-                for (i in keys) {
-                    if(err)
-                        break;
+    console.log(req.body);
+    if(req.body.sensorData)
+    { 
+        console.log("parsing ... ");
+        var data = req.body.sensorData;
+        var keys = Object.keys(data);
+        console.log(keys);
+        var error;
+        var count = 0;
+        var allOK = true;
+        for (i in keys) {
+            oracledb.getConnection({
+                user: dbConfig.dbuser,
+                password: dbConfig.dbpassword,
+                connectString: dbConfig.connectString
+            },
+            function(err, connection) {
+                if (err) {
+                    console.log(err);
+                    var response = {};
+                    response.error = err;
+                    res.send(JSON.stringify(response));
+                    allOK = false;
+                    break;
+                } else {
                     var s = JSON.stringify(data[i]);
                     count++;
                     console.log('=========================================');
@@ -68,48 +69,50 @@ app.post('/uploadrecording', function(req, res) {
                         [s], // bind the JSON string for inserting into the JSON column. 
                         { autoCommit: true }, function(err) {
                             if (err) {
-                                error = err;
+                                var response = {};
+                                response.error = err;
+                                console.log(error);
+                                console.log("===> INSERT error");
+                                res.send(response);
+                                allOK = false;
+                                break;
+                            } else {
+                                connection.close(function(err) {
+                                    if (err) {
+                                        console.log("===> connection close error");
+                                        console.log(err);
+                                        var response = {};
+                                        response.error = err;
+                                        res.send(response);
+                                        allOK = false;
+                                        break;
+                                });
                             }
                     });
-                }
-                if (error) {
-                    var response = {};
-                    response.error = error;
-                    console.log(error);
-                    console.log("===> INSERT error");
-                    res.send(response);
-                } else {
-                    connection.close(function(err) {
-                        if (err) {
-                            console.log("===> connection close error");
-                            console.log(err);
-                            var response = {};
-                            response.error = err;
-                            res.send(response);
-                        } else {
-                            console.log("===> All OK . Rows = " + count);
-                            var response = {};
-                            response.success = "Data inserted successfully. Rows = " + count;
-                            res.send(response);
-                        }
-                    });
-                }
-            } else {
-                connection.close(function(err) {
-                    if (err) {
-                        console.log(err);
-                        var response = {};
-                        response.error = err;
-                        res.send(JSON.stringify(response));
-                    } else {
-                        var response = {};
-                        response.fail = "'sensorData' not found in POST data.";
-                        res.send(response);
-                    }
-                });
-            }
+                }            
+            });
         }
-    });
+        if(allOK)
+        {
+            console.log("===> All OK . Rows = " + count);
+            var response = {};
+            response.success = "Data inserted successfully. Rows = " + count;
+            res.send(response);   
+        }
+    } else {
+        connection.close(function(err) {
+            if (err) {
+                console.log(err);
+                var response = {};
+                response.error = err;
+                res.send(JSON.stringify(response));
+            } else {
+                var response = {};
+                response.fail = "'sensorData' not found in POST data.";
+                res.send(response);
+            }
+        });
+    }
 });
 
 app.get('/data', function(req, res) {
