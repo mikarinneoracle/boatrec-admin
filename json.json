@@ -60,7 +60,7 @@
 				"velocityMadeGood": {
 					"meta": {
 						"units": "m/s",
-						"description": "The current velocity made good derived from the speed through water and appearant wind angle. A positive value is heading to upwind, negative to downwind."
+						"description": "1 =====>  The current velocity made good derived from the speed through water and appearant wind angle. A positive value is heading to upwind, negative to downwind."
 					},
 					"value": 1.9394560468844209,
 					"$source": "nmea0183-sample-data.II",
@@ -212,7 +212,7 @@
 				"velocityMadeGood": {
 					"meta": {
 						"units": "m/s",
-						"description": "The current velocity made good derived from the speed through water and appearant wind angle. A positive value is heading to upwind, negative to downwind."
+						"description": "2 ====> The current velocity made good derived from the speed through water and appearant wind angle. A positive value is heading to upwind, negative to downwind."
 					},
 					"value": -0.5041556832749954,
 					"$source": "nmea0183-sample-data.II",
