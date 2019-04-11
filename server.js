@@ -65,6 +65,10 @@ app.post('/uploadrecording', function(req, res) {
                                 console.log(err);
                                 res.send(JSON.stringify(response));
                             } else {
+                                 var response = {};
+                                response.success = "Data inserted successfully.";
+                                res.send(JSON.stringify(response));
+                                /*
                                 connection.close(function(err) {
                                     if (err) {
                                         console.log(err);
@@ -77,6 +81,7 @@ app.post('/uploadrecording', function(req, res) {
                                         res.send(JSON.stringify(response));
                                     }
                                 });
+                                */
                             }
                     });
                 }
