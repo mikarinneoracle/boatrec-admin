@@ -46,7 +46,9 @@ app.post('/uploadrecording', function(req, res) {
         for (key in keys) {
             var data = JSON.stringify(data[key]);
             count++;
-            insertRow(data, key, count);
+            insertRow(data, key, count , function(result) {
+                allOK = result;
+            });
         }
         if(allOK)
         {
@@ -85,12 +87,19 @@ function insertRow(data, key, count)
                                 var response = {};
                                 console.log(err);
                                 console.log("===> INSERT error");
+                                callback(false);
                             } else {
                                 connection.close(function(err) {
                                     if (err) {
                                         console.log("===> connection close error");
                                         console.log(err);
+                                        callback(false);
+                                    } else {
+                                        console.log("======= ALL OK1 ========= ");
+                                        callback(true);
                                     }
+                                    console.log("======= ALL OK2 ========= ");
+                                    callback(true);
                                 });
                             }
                     });
