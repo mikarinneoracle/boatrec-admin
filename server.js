@@ -44,6 +44,8 @@ app.post('/uploadrecording', function(req, res) {
         var count = 0;
         var allOK = true;
         for (i in keys) {
+            var s = JSON.stringify(data[i]);
+            count++;
             oracledb.getConnection({
                 user: dbConfig.dbuser,
                 password: dbConfig.dbpassword,
@@ -57,8 +59,6 @@ app.post('/uploadrecording', function(req, res) {
                     res.send(JSON.stringify(response));
                     allOK = false;
                 } else {
-                    var s = JSON.stringify(data[i]);
-                    count++;
                     console.log('=========================================');
                     console.log("Inserting row " + count + " key:" + i);
                     console.log(s);
