@@ -49,13 +49,12 @@ app.post('/uploadrecording', function(req, res) {
             if(req.body.sensorData)
             { 
                 console.log("parsing ... ");
-                console.log(req.body.sensorData);
-                /*
-                // urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f
-                for(var j=0; j < data.length; j++)
-                {
-                    console.log(data[j]);
+                var data = req.body.sensorData;
+                var keys = Object.keys(data);
+                console.log(keys);
+                for (i in keys) {
                     var s = JSON.stringify(data[j]);
+                    console.log(s);
                     connection.execute(
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                         [s], // bind the JSON string for inserting into the JSON column. 
@@ -80,7 +79,6 @@ app.post('/uploadrecording', function(req, res) {
                             }
                     });
                 }
-                */
             } else {
                 connection.close(function(err) {
                     if (err) {
