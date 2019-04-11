@@ -52,7 +52,10 @@ app.post('/uploadrecording', function(req, res) {
                 var data = req.body.sensorData;
                 var keys = Object.keys(data);
                 console.log(keys);
+                var error;
                 for (i in keys) {
+                    if(err)
+                        break;
                     var s = JSON.stringify(data[i]);
                     console.log(s);
                     connection.execute(
@@ -60,32 +63,30 @@ app.post('/uploadrecording', function(req, res) {
                         [s], // bind the JSON string for inserting into the JSON column. 
                         { autoCommit: true }, function(err) {
                             if (err) {
-                                var response = {};
-                                response.error = err;
-                                console.log(err);
-                                console.log("===> INSERT error");
-                                res.send(JSON.stringify(response));
-                            } else {
-                                connection.close(function(err) {
-                                    var response = {};
-                                    response.success = "Data inserted successfully.";
-                                    res.send(response);
-                                    /*
-                                    if (err) {
-                                        console.log("===> connection close error");
-                                        console.log(err);
-                                        var response = {};
-                                        response.error = err;
-                                        res.send(JSON.stringify(response));
-                                    } else {
-                                        console.log("===> All OK");
-                                        var response = {};
-                                        response.success = "Data inserted successfully.";
-                                        res.send(JSON.stringify(response));
-                                    }
-                                    */
-                                });
+                                error = err;
                             }
+                    });
+                }
+                if (error) {
+                    var response = {};
+                    response.error = error;
+                    console.log(error);
+                    console.log("===> INSERT error");
+                    res.send(response);
+                } else {
+                    connection.close(function(err) {
+                        if (err) {
+                            console.log("===> connection close error");
+                            console.log(err);
+                            var response = {};
+                            response.error = err;
+                            res.send(response);
+                        } else {
+                            console.log("===> All OK");
+                            var response = {};
+                            response.success = "Data inserted successfully.";
+                            res.send(response);
+                        }
                     });
                 }
             } else {
