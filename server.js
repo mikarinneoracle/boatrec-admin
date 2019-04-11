@@ -44,12 +44,6 @@ app.post('/uploadrecording', function(req, res) {
         var count = 0;
         var allOK = true;
         for (i in keys) {
-            var s = JSON.stringify(data[i]);
-            count++;
-            console.log('=========================================');
-            console.log("Inserting row " + count + " key:" + i);
-            console.log(s);
-            console.log('=========================================');
             oracledb.getConnection({
                 user: dbConfig.dbuser,
                 password: dbConfig.dbpassword,
@@ -64,6 +58,11 @@ app.post('/uploadrecording', function(req, res) {
                     allOK = false;
                 } else {
                     connection.execute(
+                        count++;
+                        console.log('=========================================');
+                        console.log("Inserting row " + count + " key:" + i);
+                        console.log(JSON.stringify(data[i]));
+                        console.log('=========================================');
                         'INSERT INTO j_boatrec (recording) VALUES (:bv)',
                         [JSON.stringify(data[i])], // bind the JSON string for inserting into the JSON column. 
                         { autoCommit: true }, function(err) {
