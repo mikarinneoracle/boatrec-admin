@@ -90,7 +90,7 @@ app.post('/uploadrecording', function(req, res) {
             count++;
             var s = JSON.stringify(data[key]);
             var s2 = replaceAll(s, uuid, 'uuid');
-            insertRow(s2), key, count, function(result) {
+            insertRow(s2, key, count, function(result) {
                 allOK = result;
             });
         }
