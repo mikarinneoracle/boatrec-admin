@@ -73,6 +73,8 @@ var insertRow = function (data, key, count, callback)
 }
 
 app.post('/uploadrecording', function(req, res) {
+    var uuid = 'urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f';
+    
     console.log("Uploading recording ... ");
     console.log(req.body);
     if(req.body.sensorData)
@@ -86,7 +88,9 @@ app.post('/uploadrecording', function(req, res) {
         var allOK = true;
         for (key in keys) {
             count++;
-            insertRow(JSON.stringify(data[key]), key, count, function(result) {
+            var s = JSON.stringify(JSON.stringify(data[key]);
+            var s2 = replaceAll(s, uuid, 'uuid');
+            insertRow(s2), key, count, function(result) {
                 allOK = result;
             });
         }
