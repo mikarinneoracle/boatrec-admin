@@ -88,7 +88,7 @@ app.post('/uploadrecording', function(req, res) {
         var allOK = true;
         for (key in keys) {
             count++;
-            var s = JSON.stringify(JSON.stringify(data[key]);
+            var s = JSON.stringify(JSON.stringify(data[key]));
             var s2 = replaceAll(s, uuid, 'uuid');
             insertRow(s2), key, count, function(result) {
                 allOK = result;
