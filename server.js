@@ -128,17 +128,17 @@ app.post('/uploadgeo', function(req, res) {
     if(req.body.sensorData)
     { 
         console.log("parsing ... ");
-        var data = req.body.sensorData;
+        var data = JSON.stringify(req.body.sensorData);
         insertRow(data, 'geoData', 1, function(result) {
             if(!result)
             {
                 var response = {};
-                    response.fail = "Error inserting geo data.";
-                    res.send(response);
+                response.fail = "Error inserting geo data.";
+                res.send(response);
             } else {
                 var response = {};
-            response.success = "Geo data inserted successfully.";
-            res.send(response);   
+                response.success = "Geo data inserted successfully.";
+                res.send(response);   
             }
         });
     } else {
