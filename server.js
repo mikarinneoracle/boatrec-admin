@@ -125,7 +125,7 @@ app.post('/uploadrecording', function(req, res) {
 app.post('/uploadgeo', function(req, res) {
     console.log("Uploading geo json ... ");
     console.log(req.body);
-    if(req.body.geoData)
+    if(req.body.sensorData)
     { 
         console.log("parsing ... ");
         var data = req.body.sensorData;
