@@ -104,7 +104,7 @@ app.post('/uploadrecording', function(req, res) {
                 allOK = result;
                 if(!allOK)
                 {
-                    break;
+                    i = keys.length; // to exit loop
                 }
             });
         }
