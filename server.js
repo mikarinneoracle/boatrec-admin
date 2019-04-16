@@ -89,6 +89,8 @@ app.post('/uploadrecording', function(req, res) {
         for (key in keys) {
             count++;
             var s = JSON.stringify(data[key]);
+            console.log(key + " ===> ");
+            console.log(s);
             var s2 = "";
             if(s.indexOf(uuid))
             {
