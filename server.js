@@ -86,10 +86,11 @@ app.post('/uploadrecording', function(req, res) {
         var error;
         var count = 0;
         var allOK = true;
-        for (key in keys) {
+        for(i=0; i < keys.length; i++) 
+        {
             count++;
-            var s = JSON.stringify(data[key]);
-            console.log(key + " ===> ");
+            var s = JSON.stringify(data[keys[i]]);
+            console.log(keys[i] + " ===> ");
             console.log(s);
             var s2 = "";
             if(s.indexOf(uuid))
@@ -99,8 +100,12 @@ app.post('/uploadrecording', function(req, res) {
             } else {
                 s2 = s;
             }
-            insertRow(s2, key, count, function(result) {
+            insertRow(s2, keys[i], count, function(result) {
                 allOK = result;
+                if(!allOK)
+                {
+                    break;
+                }
             });
         }
         if(allOK)
