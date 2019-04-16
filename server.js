@@ -73,8 +73,7 @@ var insertRow = function (data, key, count, callback)
 }
 
 app.post('/uploadrecording', function(req, res) {
-    var uuid = 'urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f';
-    
+    var uuid = 'urn:mrn:signalk:uuid:3a528d02-e2a1-4e1a-86b9-4de94433543f';  
     console.log("Uploading recording ... ");
     console.log(req.body);
     if(req.body.sensorData)
@@ -147,6 +146,47 @@ app.post('/uploadgeo', function(req, res) {
         res.send(response);
     }
 });
+
+app.post('/uploadmultiple', function(req, res) {
+    console.log("Uploading recording ... ");
+    console.log(req.body);
+    if(req.body.sensorData)
+    { 
+        console.log("parsing ... ");
+        var data = req.body.sensorData.features;
+        var keys = Object.keys(data);
+        console.log(keys);
+        var error;
+        var count = 0;
+        for(i=0; i < keys.length; i++) 
+        {
+            var s = JSON.stringify(data[keys[i]]);
+            console.log(keys[i] + " ===> ");
+            console.log(s);
+            insertRow(s, keys[i], i+1, function(result) {
+                count++;
+                if(!result)
+                {
+                    console.log("Error!");
+                    var response = {};
+                    response.fail = "Error inserting data.";
+                    res.send(response);
+                } else if(count >= keys.length)
+                {
+                    console.log("Rows inserted = " + count);
+                    var response = {};
+                    response.success = "Data inserted successfully. Rows = " + count;
+                    res.send(response);       
+                }
+            });
+        }
+    } else {
+        var response = {};
+        response.fail = "'sensorData' not found in POST data.";
+        res.send(response);
+    }
+});
+
 
 app.get('/data', function(req, res) {
     console.log("Getting recordings ... ");
