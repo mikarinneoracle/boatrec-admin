@@ -22,6 +22,7 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
                     data.push(row);
                 } else {
                     row.navigation = response[i]; // Testing ....
+                    data.push(row);
                 }
             }
             $scope.boatrecData = data;
