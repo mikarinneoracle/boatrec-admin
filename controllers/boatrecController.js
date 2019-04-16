@@ -20,6 +20,8 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
                     row.performance = response[i].uuid.performance;
                     row.environment = response[i].uuid.environment;
                     data.push(row);
+                } else {
+                    row.navigation = response[i]; // Testing ....
                 }
             }
             $scope.boatrecData = data;
