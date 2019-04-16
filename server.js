@@ -85,10 +85,8 @@ app.post('/uploadrecording', function(req, res) {
         console.log(keys);
         var error;
         var count = 0;
-        var allOK = true;
         for(i=0; i < keys.length; i++) 
         {
-            count++;
             var s = JSON.stringify(data[keys[i]]);
             console.log(keys[i] + " ===> ");
             console.log(s);
@@ -100,21 +98,49 @@ app.post('/uploadrecording', function(req, res) {
             } else {
                 s2 = s;
             }
-            insertRow(s2, keys[i], count, function(result) {
-                allOK = result;
-                if(!allOK)
+            insertRow(s2, keys[i], i+1, function(result) {
+                count++;
+                if(!result)
                 {
-                    i = keys.length; // to exit loop
+                    console.log("Error!");
+                    var response = {};
+                    response.fail = "Error inserting data.";
+                    res.send(response);
+                } else if(count >= keys.length)
+                {
+                    console.log("Rows inserted = " + count);
+                    var response = {};
+                    response.success = "Data inserted successfully. Rows = " + count;
+                    res.send(response);       
                 }
             });
         }
-        if(allOK)
-        {
-            console.log("===> All OK . Rows = " + count);
-            var response = {};
-            response.success = "Data inserted successfully. Rows = " + count;
+    } else {
+        var response = {};
+        response.fail = "'sensorData' not found in POST data.";
+        res.send(response);
+    }
+});
+
+app.post('/uploadgeo', function(req, res) {
+    console.log("Uploading geo json ... ");
+    console.log(req.body);
+    if(req.body.geoData)
+    { 
+        console.log("parsing ... ");
+        var data = req.body.sensorData;
+        insertRow(data, 'geoData', 1, function(result) {
+            if(!result)
+            {
+                var response = {};
+                    response.fail = "Error inserting geo data.";
+                    res.send(response);
+            } else {
+                var response = {};
+            response.success = "Geo data inserted successfully.";
             res.send(response);   
-        }
+            }
+        });
     } else {
         var response = {};
         response.fail = "'sensorData' not found in POST data.";
