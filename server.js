@@ -244,6 +244,62 @@ app.get('/data', function(req, res) {
     });
 });
 
+app.get('/geodata', function(req, res) {
+    console.log("Getting geo data ... ");
+    oracledb.getConnection({
+        user: dbConfig.dbuser,
+        password: dbConfig.dbpassword,
+        connectString: dbConfig.connectString
+    },
+    function(err, connection) {
+        if (err) {
+            console.log(err);
+            var response = {};
+            response.error = err;
+            res.send(JSON.stringify(response));
+        } else {    
+            connection.execute(
+                'SELECT recording FROM j_boatrec', // WHERE JSON_EXISTS (recording, "$.key1")',
+                function(err, result) {
+                    if (err) {
+                        var response = {};
+                        response.error = err;
+                        res.send(JSON.stringify(response));
+                    } else {
+                        console.log("Data read successfully.");
+                        console.log(result);
+                        connection.close(function(err) {
+                            if (err) {
+                                console.log(err);
+                                var response = {};
+                                response.error = err;
+                                res.send(JSON.stringify(response));
+                            } else {
+                                var response = {};
+                                console.log("rows found " + result.rows.length);
+                                //response.data = result.rows;
+                                // let's loop thru the result set
+                                response.data = [];
+                                for(var i=0; i < result.rows.length; i++)
+                                {
+                                    console.log(result.rows[i]);
+                                    if(result.rows[i].type && result.rows[i].geometry && result.rows[i].properties)
+                                    {
+                                        response.data.push(result.rows[i]);
+                                    }
+                                }
+                                console.log('================ GEO =========================');
+                                console.log(JSON.stringify(response.data));
+                                res.setHeader("Content-Type", "application/json");
+                                res.send(response.data);
+                            }
+                        });
+                    }
+            });
+        }
+    });
+});
+
 app.get('/posts', function(req, res) {
     request('http://jsonplaceholder.typicode.com/posts', function (error, response, body) {
         if(!error && response)

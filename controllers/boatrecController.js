@@ -29,7 +29,7 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
     if($location.path() == '/geo')
 	{
 		var data = [];
-        $http.get('/data').success(function(response, err) {
+        $http.get('/geodata').success(function(response, err) {
             for(var i = 0; i < response.length; i++) {
                 console.log(response[i]);
                 var row = {};
