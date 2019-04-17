@@ -20,8 +20,24 @@ app.controller('boatrecController', function($location, $http, $rootScope, $scop
                     row.performance = response[i].uuid.performance;
                     row.environment = response[i].uuid.environment;
                     data.push(row);
-                } else {
-                    row.navigation = response[i]; // Testing ....
+                }
+            }
+            $scope.boatrecData = data;
+        });
+	}
+    
+    if($location.path() == '/geo')
+	{
+		var data = [];
+        $http.get('/data').success(function(response, err) {
+            for(var i = 0; i < response.length; i++) {
+                console.log(response[i]);
+                var row = {};
+                if(response[i].type && response[i].geometry && response[i].properties)
+                {
+                    row.type = response[i].type;
+                    row.geometry = response[i].geometry;
+                    row.properties = response[i].properties;
                     data.push(row);
                 }
             }

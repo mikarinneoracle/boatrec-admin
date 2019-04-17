@@ -1,0 +1,21 @@
+<h2>Geo</h2>
+
+<form class="form-horizontal" role="form" ng-submit="submit(data)" ng-controller="boatrecController">
+    <table class="table table-hover" id="boatTable">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Geometry</th>
+          <th>Properties</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="row in boatrecData">       
+            <td> {{ row.type }} </td>  
+            <td> {{ row.geometry }} </td>  
+            <td> {{ row.properties }} </td>  
+        </tr>
+      </tbody>
+    </table>    
+</form>

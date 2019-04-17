@@ -1,3 +1,5 @@
+<h2>Boatrec</h2>
+
 <form class="form-horizontal" role="form" ng-submit="submit(data)" ng-controller="boatrecController">
     <!--
     <div class="form-group">
@@ -27,9 +29,9 @@
 
       <tbody>
         <tr ng-repeat="row in boatrecData">       
-            <td> {{ row.navigation }} </td>  
-            <td> {{ row.performance }} </td>  
-            <td> {{ row.environment }} </td>  
+            <td> {{ row.navigation }} {{ row.type }} </td>  
+            <td> {{ row.performance }} {{ row.geometry }} </td>  
+            <td> {{ row.environment }} {{ row.properties }} </td>  
         </tr>
       </tbody>
     </table>    
