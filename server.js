@@ -282,10 +282,12 @@ app.get('/geodata', function(req, res) {
                                 response.data = [];
                                 for(var i=0; i < result.rows.length; i++)
                                 {
-                                    console.log(result.rows[i]);
-                                    if(result.rows[i].type && result.rows[i].geometry && result.rows[i].properties)
+                                    var data = JSON.parse(result.rows[i]);
+                                    if(data.type && data.geometry && data.properties)
                                     {
-                                        response.data.push(result.rows[i]);
+                                        console.log("IS GEO");
+                                        console.log(data);
+                                        response.data.push(data);
                                     }
                                 }
                                 console.log('================ GEO =========================');
